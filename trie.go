@@ -1,12 +1,61 @@
 package Trie
 
 import (
+	"bytes"
+	"fmt"
 	"log"
 	"strings"
 )
 
 func init() {
 	log.SetFlags(0)
+}
+
+type Trie26 struct {
+	IsWord   bool
+	Children [26]*Trie26
+}
+
+func (t *Trie26) String() string {
+	var bfr bytes.Buffer
+	bfr.WriteString("{")
+	for i, c := range t.Children {
+		if c != nil {
+			fmt.Fprintf(&bfr, "%c", 'a'+i)
+		} else {
+			fmt.Fprintf(&bfr, "-")
+		}
+	}
+	if t.IsWord {
+		bfr.WriteString(" *}")
+		return bfr.String()
+	}
+	bfr.WriteString(" /}")
+	return bfr.String()
+}
+
+func (t *Trie26) Insert(word string) {
+	for i := 0; i < len(word); i++ {
+		c := t.Children[word[i]-'a']
+		if c == nil {
+			c = &Trie26{}
+			t.Children[word[i]-'a'] = c
+		}
+		t = c
+	}
+	t.IsWord = true
+}
+
+func (t *Trie26) Search(word string) bool {
+	for i := 0; i < len(word); i++ {
+		c := t.Children[word[i]-'a']
+		if c == nil {
+			return false
+		}
+		t = c
+	}
+	log.Print(t)
+	return t.IsWord
 }
 
 // 648m Replace Words

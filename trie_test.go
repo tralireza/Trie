@@ -10,6 +10,16 @@ func init() {
 	log.Print("> Trie")
 }
 
+func TestTrie26(t *testing.T) {
+	trie := &Trie26{}
+	for _, w := range []string{"cat", "rat", "bat", "battle"} {
+		trie.Insert(w)
+	}
+	for _, w := range []string{"fox", "bat"} {
+		log.Print(" -> ", trie.Search(w))
+	}
+}
+
 // 648m Replace Words
 func Test648(t *testing.T) {
 	HashMap := func(dictionary []string, sentence string) []string {
