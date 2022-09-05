@@ -1,0 +1,37 @@
+digraph {
+node [shape=rect];
+"" -> "a"
+"a" -> "at"
+"at" [color=red shape=note];
+"" -> "b"
+"b" -> "ba"
+"ba" -> "bat"
+"bat" [color=red shape=note];
+"bat" -> "batm"
+"batm" -> "batma"
+"batma" -> "batman"
+"batman" [color=red shape=note];
+"bat" -> "batt"
+"batt" -> "battl"
+"battl" -> "battle"
+"battle" [color=red shape=note];
+"" -> "l"
+"l" -> "li"
+"li" -> "lio"
+"lio" -> "lion"
+"lion" [color=red shape=note];
+"li" -> "liq"
+"liq" -> "liqu"
+"liqu" -> "liquo"
+"liquo" -> "liquor"
+"liquor" [color=red shape=note];
+"" -> "z"
+"z" -> "ze"
+"ze" -> "zeb"
+"zeb" -> "zebr"
+"zebr" -> "zebra"
+"zebra" [color=red shape=note];
+"ze" -> "zet"
+"zet" -> "zeta"
+"zeta" [color=red shape=note];
+}
