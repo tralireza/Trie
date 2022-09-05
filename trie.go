@@ -27,10 +27,10 @@ func (t *Trie26) String() string {
 		}
 	}
 	if t.IsWord {
-		bfr.WriteString(" *}")
+		bfr.WriteString(" /}")
 		return bfr.String()
 	}
-	bfr.WriteString(" /}")
+	bfr.WriteString(" *}")
 	return bfr.String()
 }
 
@@ -56,6 +56,28 @@ func (t *Trie26) Search(word string) bool {
 	}
 	log.Print(t)
 	return t.IsWord
+}
+
+func (t *Trie26) Graphviz() []byte {
+	var bfr bytes.Buffer
+	bfr.WriteString("digraph {\nnode [shape=rect];\n")
+
+	var Walk func(n, p *Trie26, w []byte)
+	Walk = func(n, p *Trie26, w []byte) {
+		if n.IsWord {
+			bfr.WriteString(fmt.Sprintf("%q [color=red shape=note];\n", w))
+		}
+		for i, c := range n.Children {
+			if c != nil {
+				bfr.WriteString(fmt.Sprintf("%q -> %q\n", w, append(w, byte(i)+'a')))
+				Walk(c, n, append(w, byte(i)+'a'))
+			}
+		}
+	}
+	Walk(t, nil, []byte{})
+
+	bfr.WriteString("}")
+	return bfr.Bytes()
 }
 
 // 648m Replace Words

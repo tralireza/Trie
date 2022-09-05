@@ -1,8 +1,7 @@
 package Trie
 
 import (
-	"bytes"
-	"fmt"
+	"io/fs"
 	"log"
 	"os"
 	"strings"
@@ -23,32 +22,26 @@ func TestTrie26(t *testing.T) {
 		log.Printf("? %q -> %t", w, trie.Search(w))
 	}
 
-	var bfr bytes.Buffer
 	var Graph func(n, p *Trie26, word []byte)
 	Graph = func(n, p *Trie26, word []byte) {
 		if n.IsWord {
 			log.Printf("%q", word)
 		}
-
 		for i, c := range n.Children {
 			if c != nil {
 				log.Printf("%v %v %q | %q -> %q", n, c, word, word, append(word, byte(i)+'a'))
-				bfr.WriteString(fmt.Sprintf("%q -> %q\n", word, append(word, byte(i)+'a')))
-
 				Graph(c, n, append(word, byte(i)+'a'))
 			}
 		}
 	}
-
 	Graph(trie, nil, []byte{})
 
-	log.Print(" -> trie.gv")
-	if f, err := os.Open("trie.gv"); err != nil {
-		defer f.Close()
-		f.WriteString("digraph {\nnode [shape=rect];\n")
-		f.Write(bfr.Bytes())
-		f.WriteString("\n}")
+	f, err := os.OpenFile("trie26.gv", os.O_CREATE|os.O_WRONLY, fs.FileMode(0640))
+	if err != nil {
+		t.Fatal(err)
 	}
+	f.Write(trie.Graphviz())
+	f.Close()
 }
 
 // 648m Replace Words
