@@ -1,6 +1,10 @@
 digraph {
 node [shape=rect];
+edge [arrowhead=vee];
 "" -> "a"
+"a" -> "ar"
+"ar" -> "art"
+"art" [color=red shape=note];
 "a" -> "at"
 "at" [color=red shape=note];
 "" -> "b"
@@ -11,11 +15,33 @@ node [shape=rect];
 "batm" -> "batma"
 "batma" -> "batman"
 "batman" [color=red shape=note];
+"bat" -> "bats"
+"bats" -> "batsm"
+"batsm" -> "batsma"
+"batsma" -> "batsman"
+"batsman" [color=red shape=note];
 "bat" -> "batt"
 "batt" -> "battl"
 "battl" -> "battle"
 "battle" [color=red shape=note];
+"battle" -> "battles"
+"battles" -> "battlesh"
+"battlesh" -> "battleshi"
+"battleshi" -> "battleship"
+"battleship" [color=red shape=note];
 "" -> "l"
+"l" -> "le"
+"le" -> "let"
+"let" [color=red shape=note];
+"let" -> "lett"
+"lett" -> "lette"
+"lette" -> "letter"
+"letter" [color=red shape=note];
+"lett" -> "letti"
+"letti" -> "lettin"
+"lettin" -> "letting"
+"letting" -> "lettings"
+"lettings" [color=red shape=note];
 "l" -> "li"
 "li" -> "lio"
 "lio" -> "lion"
@@ -34,4 +60,7 @@ node [shape=rect];
 "ze" -> "zet"
 "zet" -> "zeta"
 "zeta" [color=red shape=note];
+"z" -> "zo"
+"zo" -> "zoo"
+"zoo" [color=red shape=note];
 }
