@@ -3,6 +3,7 @@ package Trie
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"log"
 	"strings"
 )
@@ -54,30 +55,27 @@ func (t *Trie26) Search(word string) bool {
 		}
 		t = c
 	}
-	log.Print(t)
 	return t.IsWord
 }
 
-func (t *Trie26) Graphviz() []byte {
-	var bfr bytes.Buffer
-	bfr.WriteString("digraph {\nnode [shape=rect];\n")
+func (t *Trie26) Graphviz(wr io.Writer) {
+	io.Copy(wr, strings.NewReader("digraph {\nnode [shape=rect];\nedge [arrowhead=vee];\n"))
 
 	var Walk func(n, p *Trie26, w []byte)
 	Walk = func(n, p *Trie26, w []byte) {
 		if n.IsWord {
-			bfr.WriteString(fmt.Sprintf("%q [color=red shape=note];\n", w))
+			io.Copy(wr, strings.NewReader(fmt.Sprintf("%q [color=red shape=note];\n", w)))
 		}
 		for i, c := range n.Children {
 			if c != nil {
-				bfr.WriteString(fmt.Sprintf("%q -> %q\n", w, append(w, byte(i)+'a')))
+				io.Copy(wr, strings.NewReader(fmt.Sprintf("%q -> %q\n", w, append(w, byte(i)+'a'))))
 				Walk(c, n, append(w, byte(i)+'a'))
 			}
 		}
 	}
 	Walk(t, nil, []byte{})
 
-	bfr.WriteString("}")
-	return bfr.Bytes()
+	wr.Write([]byte{'}'})
 }
 
 // 648m Replace Words

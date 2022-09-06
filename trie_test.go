@@ -1,6 +1,7 @@
 package Trie
 
 import (
+	"bufio"
 	"io/fs"
 	"log"
 	"os"
@@ -14,10 +15,9 @@ func init() {
 
 func TestTrie26(t *testing.T) {
 	trie := &Trie26{}
-	for _, w := range []string{"at", "zebra", "zeta", "lion", "liquor", "bat", "battle", "batman"} {
+	for _, w := range []string{"at", "art", "zoo", "zebra", "zeta", "lion", "liquor", "bat", "battle", "batman", "batsman", "battleship", "let", "letter", "lettings"} {
 		trie.Insert(w)
 	}
-	log.Print(trie)
 	for _, w := range []string{"fox", "bat"} {
 		log.Printf("? %q -> %t", w, trie.Search(w))
 	}
@@ -36,12 +36,14 @@ func TestTrie26(t *testing.T) {
 	}
 	Graph(trie, nil, []byte{})
 
-	f, err := os.OpenFile("trie26.gv", os.O_CREATE|os.O_WRONLY, fs.FileMode(0640))
+	f, err := os.OpenFile("trie26.gv", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, fs.FileMode(0640))
 	if err != nil {
 		t.Fatal(err)
 	}
-	f.Write(trie.Graphviz())
-	f.Close()
+	defer f.Close()
+	w := bufio.NewWriter(f)
+	trie.Graphviz(w)
+	w.Flush()
 }
 
 // 648m Replace Words
